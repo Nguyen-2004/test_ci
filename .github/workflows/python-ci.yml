@@ -1,0 +1,33 @@
+name: Python CI             # Tên workflow hiển thị trong tab Actions
+
+on: [push, pull_request]    # Kích hoạt khi có code được push hoặc PR
+
+jobs:
+  build:                   # Tên job
+    runs-on: ubuntu-latest # Hệ điều hành của môi trường runner
+
+    steps:                 # Các bước thực hiện
+    - uses: actions/checkout@v3       # Bước 1: Clone code từ repo
+    - uses: actions/setup-python@v4   # Bước 2: Cài Python
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies      # Bước 3: Cài thư viện cần thiết
+      run: |
+        pip install -r requirements.txt
+        pip install flake8 coverage
+
+    - name: Run tests                 # Bước 4: Chạy pytest
+      run: pytest
+
+    - name: Run coverage              # Bước 5: Đo code coverage
+      run: |
+        coverage run -m pytest
+        coverage report
+
+    - name: Check code style          # Bước 6: Kiểm tra coding style
+      run: flake8 .
+
+    - name: Deploy (giả lập)          # Bước 7: Deploy nếu thành công
+      if: success()
+      run: echo "Triển khai thành công!" > deploy.txt
