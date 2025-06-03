@@ -1,11 +1,4 @@
-# file: test_calculator.py
-from calculator import tinh_gia_tri_bieu_thuc
+from calculator import add
 
-def test_cong():
-    assert tinh_gia_tri_bieu_thuc("2+3") == 5
-
-def test_loi():
-    assert tinh_gia_tri_bieu_thuc("2+") == "Lỗi cú pháp"
-
-
-
+def test_add():
+    assert add(2, 3) == 5
